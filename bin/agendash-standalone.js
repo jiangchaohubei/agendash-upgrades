@@ -4,18 +4,19 @@ const http = require('http');
 const Agenda = require('agenda');
 const express = require('express');
 const program = require('commander');
+const settings=require('../settings')
 
 program
   .option('-d, --db <db>', '[required] Mongo connection string, same as Agenda connection string')
   .option('-c, --collection <collection>', '[optional] Mongo collection, same as Agenda collection name, default agendaJobs', 'agendaJobs')
-  .option('-p, --port <port>', '[optional] Server port, default 3000', (n, d) => Number(n) || d, 8080)
+  .option('-p, --port <port>', '[optional] Server port, default 3000', (n, d) => Number(n) || d, settings.port)
   .option('-t, --title <title>', '[optional] Page title, default Agendash', 'Agendash')
   .parse(process.argv);
 
 if (!program.db) {
   // console.error('--db required');
   // process.exit(1);
-    program.db="mongodb://root:0o3ei8ujfmc@10.9.107.130:27017/agenda?authSource=admin&authMechanism=SCRAM-SHA-1"
+    program.db=settings.mongodb
 }
 
 const app = express();
