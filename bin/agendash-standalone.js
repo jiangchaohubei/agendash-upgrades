@@ -5,6 +5,7 @@ const Agenda = require('agenda');
 const express = require('express');
 const program = require('commander');
 const settings=require('../settings')
+const basicAuth = require('basic-auth-connect');
 
 program
   .option('-d, --db <db>', '[required] Mongo connection string, same as Agenda connection string')
@@ -22,6 +23,17 @@ if (!program.db) {
 const app = express();
 
 const agenda = new Agenda().database(program.db, program.collection);
+app.use(function (req,res,next) {
+    let tokenIsOk = req.headers.token
+    if(tokenIsOk===settings.token){
+        next()
+    }else{
+        basicAuth(function(user, pass){
+            console.log(user)
+            return settings.user == user && settings.pass == pass;
+        })(req,res,next)
+    }
+})
 app.use('/', require('../app')(agenda, {
   title: program.title
 }));

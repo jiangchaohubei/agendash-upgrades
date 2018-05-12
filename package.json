@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "run-p lint ava",
-    "start": "node ./bin/agendash-standalone.js --db=mongodb://localhost/agenda --port=8080",
+    "start": "node ./bin/agendash-standalone.js --db=mongodb://localhost/agenda --port=3000",
     "lint": "xo",
     "ava": "ava"
   },
@@ -28,6 +28,7 @@
   "dependencies": {
     "agenda": "^1.0.3",
     "async": "^2.6.0",
+    "basic-auth-connect": "^1.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.15.0",
     "commander": "^2.9.0",
