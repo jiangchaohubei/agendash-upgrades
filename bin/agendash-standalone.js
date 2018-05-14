@@ -24,12 +24,11 @@ const app = express();
 
 const agenda = new Agenda().database(program.db, program.collection);
 app.use(function (req,res,next) {
-    let tokenIsOk = req.headers.token
-    if(tokenIsOk===settings.token){
+    let token = req.headers.token
+    if(token===settings.token){
         next()
     }else{
         basicAuth(function(user, pass){
-            console.log(user)
             return settings.user == user && settings.pass == pass;
         })(req,res,next)
     }
